@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "csv-stringify": "^1.0.4",
+    "engine.io": "^2.1.1",
+    "engine.io-client": "^2.1.1",
+    "express": "^4.15.2",
+    "gun": "^0.6.7",
+    "mkdirp": "^0.5.1",
+    "pg": "^6.1.5",
+    "pouchdb": "^6.1.2",
+    "randomstring": "^1.1.5",
+    "request-promise": "^4.2.0",
+    "socket.io": "^1.7.3",
+    "socket.io-client": "^1.7.3",
+    "socket.io-redis": "^4.0.0",
+    "stats-lite": "^2.0.4",
+    "sync-gateway": "^0.1.6",
+    "uuid": "^3.0.1",
+    "websocket-client": "^1.0.0",
+    "ws": "1.*"
+  }
+}

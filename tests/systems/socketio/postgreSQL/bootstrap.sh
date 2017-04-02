@@ -20,20 +20,34 @@ sudo -u postgres psql -d "test" -c "CREATE TABLE test (
     name varchar(30),
     description text,
     channel varchar(255)
+);
+CREATE TABLE posts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    owner integer,
+    name varchar(30),
+    description text,
+    channel varchar(255)
+);
+CREATE TABLE comments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    owner integer,
+    name varchar(30),
+    description text,
+    channel varchar(255)
 );"
 sudo -u postgres psql -d "test" -c "CREATE OR REPLACE FUNCTION table_update_notify() RETURNS trigger AS \$\$
 DECLARE
   id UUID;
-  owner TEXT;
+  channel TEXT;
   old_v TEXT;
   new_v TEXT;
 BEGIN
   IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
     id = NEW.id;
-    owner = NEW.owner;
+    channel = NEW.channel;
   ELSE
     id = OLD.id;
-    owner = OLD.owner;
+    channel = OLD.channel;
   END IF;
 
   IF TG_OP = 'INSERT' THEN
@@ -48,13 +62,23 @@ BEGIN
    new_v := (SELECT  ('[' || row_to_json(NEW) || ']')::json ->> 0);
  END IF;
 
- PERFORM pg_notify('table_update', json_build_object('table', TG_TABLE_NAME, 'old',old_v, 'new', new_v, 'id', id, 'owner', owner, 'type', TG_OP)::text);
+ PERFORM pg_notify('table_update', json_build_object('table', TG_TABLE_NAME, 'old',old_v, 'new', new_v, 'id', id, 'channel', channel, 'type', TG_OP)::text);
 
  RETURN NEW;
 END;
 \$\$ LANGUAGE plpgsql;"
 sudo -u postgres psql -d "test" -c "CREATE TRIGGER notify_trigger
 AFTER INSERT OR UPDATE OR DELETE ON test
+FOR EACH ROW
+EXECUTE PROCEDURE table_update_notify();
+
+CREATE TRIGGER notify_trigger
+AFTER INSERT OR UPDATE OR DELETE ON posts
+FOR EACH ROW
+EXECUTE PROCEDURE table_update_notify();
+
+CREATE TRIGGER notify_trigger
+AFTER INSERT OR UPDATE OR DELETE ON comments
 FOR EACH ROW
 EXECUTE PROCEDURE table_update_notify();"
 

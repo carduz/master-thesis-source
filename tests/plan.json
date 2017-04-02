@@ -1,0 +1,67 @@
+{
+  "couchbase":{
+    "social":[
+
+      {
+        "writer": 1,
+        "reader": 10,
+        "concurrency": 250,
+        "size": 10
+      },
+      {
+        "writer": 1,
+        "reader": 100,
+        "concurrency": 80,
+        "size": 10
+      },
+      {
+        "writer": 10,
+        "reader": 100,
+        "concurrency": 20,
+        "size": 10
+      }
+    ],
+    "chat":[
+
+      {
+        "writer": 1,
+        "reader": 10,
+        "concurrency": 200,
+        "size": 10
+      },
+      {
+        "writer": 1,
+        "reader": 100,
+        "concurrency": 40,
+        "size": 10
+      },
+      {
+        "writer": 10,
+        "reader": 100,
+        "concurrency": 15,
+        "size": 10
+      }
+    ],
+    "collaborative":[
+
+      {
+        "writer": 1,
+        "reader": 1,
+        "concurrency": 350,
+        "size": 10
+      },
+      {
+        "writer": 10,
+        "reader": 10,
+        "concurrency": 15,
+        "size": 10
+      },
+      {
+        "writer": 100,
+        "reader": 100,
+        "concurrency": 1,
+        "size": 10
+      }
+    ]
+  }
+}

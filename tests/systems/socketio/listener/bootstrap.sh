@@ -22,7 +22,7 @@ pg.connect('postgres://test:test@192.168.3.110/test', function(err, client) {
         if (msg.name === 'notification' && msg.channel === 'table_update') {
             var pl = JSON.parse(msg.payload);
             var op = pl.type.toLowerCase();
-            io.of('/'+pl.table).to(pl.owner).emit(op, {id: pl.id, old: JSON.parse(pl.old), new: JSON.parse(pl.new)});
+            io.of('/'+pl.table).to(pl.channel).emit(op, {id: pl.id, old: JSON.parse(pl.old), new: JSON.parse(pl.new)});
         }
     });
     client.query('LISTEN table_update');
